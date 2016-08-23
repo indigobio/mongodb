@@ -279,7 +279,7 @@ defmodule Mongo.Connection do
     num_return = Keyword.get(opts, :batch_size, 0)
     {id, s}    = new_command(:find, nil, from, s)
 
-    op_query(coll: namespace(coll, s), query: query, select: select,
+    op_query(coll: namespace(coll, s, opts), query: query, select: select,
              num_skip: num_skip, num_return: num_return, flags: flags(flags))
     |> send(id, s)
     |> send_to_noreply

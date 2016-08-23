@@ -70,8 +70,12 @@ defmodule Mongo.Connection.Utils do
     end
   end
 
-  def namespace(coll, s),
-    do: [s.database, ?. | coll]
+  def namespace(coll, s, opts \\ []) do
+    case Keyword.get(opts, :database) do
+      nil -> [s.database, ?. | coll]
+      db -> [db, ?. | coll]
+    end
+  end
 
   def digest(nonce, username, password) do
     :crypto.hash(:md5, [nonce, username, digest_password(username, password)])
